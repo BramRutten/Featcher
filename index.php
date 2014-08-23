@@ -19,7 +19,7 @@
     <script src="assets/js/jquery.min.js"></script>
 	<script src="assets/js/modernizr.custom.js"></script>
 	
-
+	<link rel="shortcut icon" href="assets/img/fav.ico" type="image/x-icon" />
 	
     <link href='http://fonts.googleapis.com/css?family=Oswald:400,300,700' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=EB+Garamond' rel='stylesheet' type='text/css'>
@@ -39,14 +39,15 @@
 			<h1 class="logo"><a href="index.php">FEATCHER</a></h1>
 			<i class="icon-remove menu-close"></i>
 			<a href="index.php" class="smoothScroll">Home</a>
-			<a href="index.php" class="smoothScroll">Popular</a>
-			<a href="index.php" class="smoothScroll">Newest</a>
+			<a href="#popular" class="smoothScroll">Popular</a>
+			<a href="#newest" class="smoothScroll">Newest</a>
 
 			
 
 		</br>
-			<a href="login.php">Login</a>
+			<a href="login.php">Log in</a>
 			<a href="adduser.php">Add user</a><!-- is-admin -->
+			<a href="logout.php">Log out</a>
 		</br>
 			<a href="https://twitter.com/Bram_Rutten"><i class="icon-twitter"></i></a>
 			<a href="mailto:contact@bramrutten.be"><i class="icon-envelope"></i></a>
@@ -63,7 +64,7 @@
 	<div id="headerwrap">
 		<div class="container">
 			<div class="logo">
-				<img src="assets/img/logo.png">
+				<a href="index.php"><img src="assets/img/logo.png"></a>
 			</div>
 			<br>
 			<div class="row">
@@ -92,7 +93,7 @@
 				<div class="col-lg-6 col-lg-offset-3">
 					<p>Hier komt de top 10 rated Features.</p>
 					
-					<p><button type="button" class="btn btn-warning">I WANT TO PROPOSE FEATURES TOO!</button></p>
+					<a href="login.php"><p><button type="button" class="btn btn-warning">I WANT TO PROPOSE FEATURES TOO!</button></p></a>
 				</div>								
 			</div>
 		</div><!-- /container -->
@@ -111,7 +112,7 @@
 				<div class="col-lg-6 col-lg-offset-3">
 					<p>Hier komen de laatste Features.</p>
 					
-					<p><button type="button" class="btn btn-warning">I WANT TO PROPOSE FEATURES TOO!</button></p>
+					<a href="login.php"><p><button type="button" class="btn btn-warning">I WANT TO PROPOSE FEATURES TOO!</button></p></a>
 				</div>								
 			</div>
 		</div><!-- container -->

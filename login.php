@@ -23,7 +23,7 @@ require_once('assets/classes/user.class.php');
     <script src="assets/js/jquery.min.js"></script>
 	<script src="assets/js/modernizr.custom.js"></script>
 	
-
+	<link rel="shortcut icon" href="assets/img/fav.ico" type="image/x-icon" />
 	
     <link href='http://fonts.googleapis.com/css?family=Oswald:400,300,700' rel='stylesheet' type='text/css'>
     <link href='http://fonts.googleapis.com/css?family=EB+Garamond' rel='stylesheet' type='text/css'>
@@ -62,7 +62,7 @@ require_once('assets/classes/user.class.php');
 	<div id="headerwrap">
 		<div class="container">
 			<div class="logo">
-				<img src="assets/img/logo.png">
+				<a href="index.php"><img src="assets/img/logo.png"></a>
 			</div>
 			<br>
 			<div class="row">
