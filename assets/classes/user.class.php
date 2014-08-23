@@ -1,7 +1,5 @@
 <?php
 
-
-
 include_once("db.class.php");
 
 class user{
@@ -97,21 +95,7 @@ class user{
 	}
 
 
-	function signup(){
-
-		$db = new Db();
-		$sql = "INSERT INTO tbl_user (name, email, password, type) 
-			VALUES ('".$db->conn->real_escape_string($this->name)."',
-					'".$db->conn->real_escape_string($this->email)."',
-					'".$db->conn->real_escape_string($this->password)."',
-					'".$db->conn->real_escape_string($this->type)."');";
-
-		$db->conn->query($sql);
-		header ('Location: index.php');
-	}
-
-
-	function login($email,$password){
+		function login($email,$password){
 
 		$db = new Db();
 		$salt = "(TH!5-8e-Th3-54lT)";
@@ -134,60 +118,12 @@ class user{
 
 			$this->fillUser($row['user_id']);
 
-			header('Location: base.php');
+			header('Location: index.php');
 
 		}else{
 			throw new Exception("Email and/or password incorrect.");	
 		}
 	}
-
-	function fillUser($id){
-		$db = new Db();
-		
-		$salt = "(TH!5-8e-Th3-54lT)";
-		$sql = 'SELECT * from tbl_user WHERE user_id = "'.$db->conn->real_escape_string($id).'";';
-
-		$result = $db->conn->query($sql);
-		$row = $result->fetch_assoc();
-
-		$this->user_id = $row['user_id'];
-		$this->name = $row['name'];
-		$this->type = $row['type'];
-		$this->email = $row['email'];
-		$this->age = $row['age'];
-		$this->sex = $row['sex'];
-		$this->image = $row['image'];
-		$this->hash = $row['hash'];
-	}
-
- 
- 	function isLoggedIn(){
-		
-		if($_SESSION['hash']){
-
-			$db = new Db();
-		
-			$sql = 'SELECT * from tbl_user WHERE hash = "'.$_SESSION['hash'].'";';
-
-			$result = $db->conn->query($sql);
-			$row = $result->fetch_assoc();
-
-			if($result->num_rows ==1){
-
-
-				$this->fillUser($row['user_id']);
-
-			}else{
-				header ('Location: destroy.php');
-			}
-			
-
-		}else{
-			header ('Location: destroy.php');
-		}
-	}
-
-
 
 
 

@@ -84,25 +84,35 @@ require_once('assets/classes/user.class.php');
 	<div id="f">
 		<div class="container">
 			<div class="row">
-				<h3>LOGIN</h3>
+				<h3>ADD USER</h3>
 				<p class="centered"><i class="icon icon-circle"></i><i class="icon icon-circle"></i><i class="icon icon-circle"></i></p>
 				
 				<div class="col-lg-6 col-lg-offset-3">
-					<p>If you don't have an account ask an administrator.</p>
+				
 
 
 						<!-- begin login form -->
 						<form action="" method="post">
 					 		<div style="margin-bottom: 25px" class="input-group">
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                        <input id="login-username" type="text" class="form-control" name="username" value="" placeholder="username">                                        
-                                    </div>
+                                        <input id="name" type="text" class="form-control" name="name" value="" placeholder="username">                                        
+                            </div>
+
+                            <div style="margin-bottom: 25px" class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                        <input id="email" type="password" class="form-control" name="email" placeholder="email">
+                            </div>
                                 
                             <div style="margin-bottom: 25px" class="input-group">
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
                                         <input id="login-password" type="password" class="form-control" name="password" placeholder="password">
-                                    </div>
-							<p><button type="button" value="log in" class="btn btn-warning">Login</button></p>
+                            </div>
+
+                     		<div style="margin-bottom: 25px" class="input-group">
+                                      <input type="checkbox" name="admin" value="admin"> Admin<br>  
+                            </div>
+
+							<p><button type="button" value="log in" class="btn btn-warning">Add</button></p>
 						</form>
 						<!-- Einde login form -->
 

@@ -41,8 +41,12 @@
 			<a href="index.php" class="smoothScroll">Home</a>
 			<a href="index.php" class="smoothScroll">Popular</a>
 			<a href="index.php" class="smoothScroll">Newest</a>
+
+			
+
 		</br>
 			<a href="login.php">Login</a>
+			<a href="adduser.php">Add user</a><!-- is-admin -->
 		</br>
 			<a href="https://twitter.com/Bram_Rutten"><i class="icon-twitter"></i></a>
 			<a href="mailto:contact@bramrutten.be"><i class="icon-envelope"></i></a>
@@ -126,3 +130,8 @@
 	<script src="assets/js/main.js"></script>
 </body>
 </html>
+
+
+
+
+<!-- select * from images where fbid IN (select fbid from ratings HAVING count(fbid) > 150 group by fbid)  -->
