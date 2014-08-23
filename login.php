@@ -42,8 +42,7 @@
 			<a href="index.php" class="smoothScroll">Popular</a>
 			<a href="index.php" class="smoothScroll">Newest</a>
 		</br>
-			<a href="login.php">Login</a>
-		</br>
+		
 			<a href="https://twitter.com/Bram_Rutten"><i class="icon-twitter"></i></a>
 			<a href="mailto:contact@bramrutten.be"><i class="icon-envelope"></i></a>
 		</div>
@@ -76,43 +75,33 @@
 	
 	
 	
-	<!-- ========== MOST POPULAR SECTION ========== -->
+	<!-- ========== LOGIN SECTION ========== -->
 	<section id="popular" name="popular"></section>
 	<div id="f">
 		<div class="container">
 			<div class="row">
-				<h3>MOST POPULAR FEATURES</h3>
+				<h3>LOGIN</h3>
 				<p class="centered"><i class="icon icon-circle"></i><i class="icon icon-circle"></i><i class="icon icon-circle"></i></p>
 				
-				<!-- INTRO INFORMATIO-->
 				<div class="col-lg-6 col-lg-offset-3">
-					<p>Hier komt de top 10 rated Features.</p>
-					
-					<p><button type="button" class="btn btn-warning">I WANT TO PROPOSE FEATURES TOO!</button></p>
+					<p>If you don't have an account ask an administrator.</p>
+					 <div style="margin-bottom: 25px" class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                        <input id="login-username" type="text" class="form-control" name="username" value="" placeholder="username">                                        
+                                    </div>
+                                
+                            <div style="margin-bottom: 25px" class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                        <input id="login-password" type="password" class="form-control" name="password" placeholder="password">
+                                    </div>
+					<p><button type="button" class="btn btn-warning">Login</button></p>
 				</div>								
 			</div>
 		</div><!-- /container -->
 	</div><!-- /f -->
 	
 
-	<!-- ========== NEWEST PROPOSITIONS SECTION ========== -->	
-	<section id="newest" name="newest"></section>
-	<div id="f">
-		<div class="container">
-			<div class="row centered">
-				<h3>NEWEST PROPOSITIONS</h3>
-					<p class="centered"><i class="icon icon-circle"></i><i class="icon icon-circle"></i><i class="icon icon-circle"></i></p>
-				
-				<!-- INTRO INFORMATIO-->
-				<div class="col-lg-6 col-lg-offset-3">
-					<p>Hier komen de laatste Features.</p>
-					
-					<p><button type="button" class="btn btn-warning">I WANT TO PROPOSE FEATURES TOO!</button></p>
-				</div>								
-			</div>
-		</div><!-- container -->
-	</div>	<!-- f -->
-
+	
 
 
 	
