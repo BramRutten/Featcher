@@ -1,13 +1,12 @@
 <?php
 include 'header.php';
 
-$user_id = 3;
 ?>
 
 <?php
 
 if(isset($_POST['addfeature'])){
-	$feature->add($_POST['userid'], $_POST['text']);
+	$feature->add($user->user_id, $_POST['text']);
 }
 
 if(isset($_GET['remove'])){
@@ -57,7 +56,13 @@ if(isset($_GET['vote'])){
 			<?php 
 				}
 			?>
-			<a href="adduser.php">Add user</a><!-- is-admin -->
+			<?php
+				if($user->isAdmin()){
+			?>
+			<a href="adduser.php">Add user</a><!-- is_admin -->
+			<?php 
+				}
+			?>
 			<?php
 				if($user->isLoggedIn()){
 			?>
@@ -115,7 +120,7 @@ if(isset($_GET['vote'])){
 
 					<form method="post">
 						<textarea name="text" class="form-control"></textarea><br/>
-						<input type="text" name="userid" class="form-control"><br/>
+						
 						<p><button type="submit" class="btn btn-warning" name="addfeature">Add</button></p>
 					</form>
 
@@ -175,6 +180,14 @@ if(isset($_GET['vote'])){
 					<td width="20%"><?=$f['user_id']?></td>
 					<td width="20%"><?=($f['totalVote'])?></td>
 					<td><a href="?vote=yes&userid=<?=$user_id?>&fid=<?=$f['feature_id']?>">Yes</a> / <a href="?vote=no&userid=<?=$user_id?>&fid=<?=$f['feature_id']?>">No</a></td>
+					<!-- Delete feature -->
+					<?php
+						if($user->isAdmin()){
+					?>		
+					<td><a href="?remove=true&id=???&userid=???">Delete</a>
+					<?php 
+						}
+					?>
 				</tr>
 			</table>
 			</div>
@@ -241,9 +254,17 @@ if(isset($_GET['vote'])){
 			<table class="table">
 				<tr style="background-color: <?=($f['totalVote'] > 0) ? '#B3FFBF' : '#FFC5C5'; ?>;">
 					<td width="40%"><?=$f['text']?></td>
-					<td width="20%"><?=$f['user_id']?></td>
+					<td width="20%"><?=$f['user_id']?></td> <!-- MOET NAME UIT tabel USER-->
 					<td width="20%"><?=($f['totalVote'])?></td>
 					<td><a href="?vote=yes&userid=<?=$user_id?>&fid=<?=$f['feature_id']?>">Yes</a> / <a href="?vote=no&userid=<?=$user_id?>&fid=<?=$f['feature_id']?>">No</a></td>
+					<!-- Delete feature -->
+					<?php
+						if($user->isAdmin()){
+					?>		
+					<td><a href="?remove=true&id=???&userid=???">Delete</a>
+					<?php 
+						}
+					?>
 				</tr>
 			</table>
 			</div>

@@ -4,11 +4,12 @@ class user{
 
 	//Privates
 	private $name;
-	private $type;
+	private $hash;
 	private $email;
 	private $password;
-	private $sex;
+	public $is_admin;
 	private $image;
+	private $user_id;
 	
 
 	//Getters
@@ -24,8 +25,8 @@ class user{
 				$this->name = $value;
 				break;
 
-			case 'type':
-				$this->type = $value;
+			case 'is_admin':
+				$this->is_admin = $value;
 				break;
 			
 			case 'email':
@@ -35,10 +36,6 @@ class user{
 			case 'password':
 				$salt = "(TH!5-8e-Th3-54lT)";
 				$this->password = sha1($value.$salt);
-				break;
-
-			case 'sex':
-				$this->sex = $value;
 				break;
 
 			case 'image':
@@ -65,8 +62,8 @@ class user{
 				return $this->name;
 				break;
 			
-			case 'type':
-				return $this->type;
+			case 'is_admin':
+				return $this->is_admin;
 				break;
 
 			case 'email':
@@ -75,10 +72,6 @@ class user{
 
 			case 'password':
 				return $this->password;
-				break;
-
-			case 'sex':
-				return $this->sex;
 				break;
 
 			case 'image':
@@ -158,8 +151,9 @@ class user{
 		$this->name = $row['name'];
 		$this->email = $row['email'];
 		$this->image = $row['image'];
-		$this->image = $row['is_admin'];
+		$this->is_admin = $row['is_admin'];
 		$this->hash = $row['hash'];
+		
 	}
 
 	 	function isLoggedIn($redirect=false){
@@ -195,6 +189,16 @@ class user{
 					return false;
 				}
 		}
+	}
+
+	function isAdmin(){
+
+		if($this->is_admin){
+			return true;
+		}else{
+			return false;
+		}
+
 	}
 
 }

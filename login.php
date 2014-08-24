@@ -1,7 +1,7 @@
 <?php
 include 'header.php';
 
-if(isset($_SESSION['hash'])){
+if($user->isLoggedIn()){
 header('Location: index.php');
 }
 ?>
@@ -70,7 +70,7 @@ if(isset($_POST['login'])){
 				<p class="centered"><i class="icon icon-circle"></i><i class="icon icon-circle"></i><i class="icon icon-circle"></i></p>
 				
 				<div class="col-lg-6 col-lg-offset-3">
-					<p>If you don't have an account ask an administrator.</p>
+					<p>If you don't have an account ask an <a href="mailto:rutten_bram@hotmail.com">administrator</a>.</p>
 
 
 						<!-- begin login form -->

@@ -9,6 +9,9 @@ $user 		= new User($db);
 $feature 	= new Feature($db);
 
 
+
 ob_start();
 session_start();
+
+$user->isLoggedIn();
 ?>
