@@ -23,8 +23,7 @@ if(isset($_POST['adduser'])){
 			<h1 class="logo"><a href="index.php">FEATCHER</a></h1>
 			<i class="icon-remove menu-close"></i>
 			<a href="index.php" class="smoothScroll">Home</a>
-			<a href="index.php" class="smoothScroll">Popular</a>
-			<a href="index.php" class="smoothScroll">Newest</a>
+		
 		</br>
 		
 			<a href="https://twitter.com/Bram_Rutten"><i class="icon-twitter"></i></a>

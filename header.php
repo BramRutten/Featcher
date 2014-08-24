@@ -1,5 +1,11 @@
 <?php
 include 'init.php';
+
+//if(isset($_SESSION['hash'])){
+//echo $_SESSION['hash'];
+//}
+
+
 ?>
 
 <!DOCTYPE html>

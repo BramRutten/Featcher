@@ -37,16 +37,34 @@ if(isset($_GET['vote'])){
 			<h1 class="logo"><a href="index.php">FEATCHER</a></h1>
 			<i class="icon-remove menu-close"></i>
 			<a href="index.php" class="smoothScroll">Home</a>
+			<?php
+				if($user->isLoggedIn()){
+			?>
 			<a href="#feature" class="smoothScroll">Add feature</a>
+			<?php 
+				}
+			?>
 			<a href="#popular" class="smoothScroll">Popular</a>
 			<a href="#newest" class="smoothScroll">Newest</a>
 
 			
 
 		</br>
+			<?php
+				if(!$user->isLoggedIn()){
+			?>
 			<a href="login.php">Log in</a>
+			<?php 
+				}
+			?>
 			<a href="adduser.php">Add user</a><!-- is-admin -->
+			<?php
+				if($user->isLoggedIn()){
+			?>
 			<a href="logout.php">Log out</a>
+			<?php 
+				}
+			?>
 		</br>
 			<a href="https://twitter.com/Bram_Rutten"><i class="icon-twitter"></i></a>
 			<a href="mailto:contact@bramrutten.be"><i class="icon-envelope"></i></a>
@@ -77,9 +95,14 @@ if(isset($_GET['vote'])){
 			</div>
 		</div><!-- /container -->
 	</div><!-- /headerwrap -->
-	
-	
-		<!-- ========== ADD FEATURE SECTION ========== -->
+
+
+
+	<!-- ========== ADD FEATURE SECTION ========== -->
+	<?php
+		if($user->isLoggedIn()){
+	?>
+
 	<section id="feature" name="feature"></section>
 	<div id="f">
 		<div class="container">
@@ -101,6 +124,9 @@ if(isset($_GET['vote'])){
 			</div>
 		</div><!-- /container -->
 	</div><!-- /f -->
+	<?php 
+		}
+	?>
 
 
 
@@ -160,8 +186,16 @@ if(isset($_GET['vote'])){
 		<!-- EINDE TOP 5 -->
 
 					
-					
+					<?php
+						if(!$user->isLoggedIn()){
+
+						
+					 ?>
 					<a href="login.php"><p><button type="button" class="btn btn-warning">I WANT TO PROPOSE FEATURES TOO!</button></p></a>
+					<?php 
+						}
+					?>
+
 				</div>								
 			</div>
 		</div><!-- /container -->
@@ -220,7 +254,15 @@ if(isset($_GET['vote'])){
 		</div>
 		<!-- EINDE LAATSTE 10 -->
 					
+					<?php
+						if(!$user->isLoggedIn()){
+
+						
+					 ?>
 					<a href="login.php"><p><button type="button" class="btn btn-warning">I WANT TO PROPOSE FEATURES TOO!</button></p></a>
+					<?php 
+						}
+					?>
 				</div>								
 			</div>
 		</div><!-- container -->

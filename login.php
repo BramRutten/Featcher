@@ -1,7 +1,9 @@
 <?php
 include 'header.php';
 
-$user_id = 3;
+if(isset($_SESSION['hash'])){
+header('Location: index.php');
+}
 ?>
 
 <?php

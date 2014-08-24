@@ -119,8 +119,8 @@ class user{
 			$this->fillUser($row['user_id']);
 
 			header('Location: index.php');
-			
 		
+
 		}
 	}
 
@@ -160,6 +160,41 @@ class user{
 		$this->image = $row['image'];
 		$this->image = $row['is_admin'];
 		$this->hash = $row['hash'];
+	}
+
+	 	function isLoggedIn($redirect=false){
+		
+		if(isset($_SESSION['hash'])){
+
+			$db = new Db();
+		
+			$sql = 'SELECT * from user WHERE hash = "'.$_SESSION['hash'].'";';
+
+			$result = $db->conn->query($sql);
+			$row = $result->fetch_assoc();
+
+			if($result->num_rows ==1){
+
+
+				$this->fillUser($row['user_id']);
+				return true;
+
+			}else{
+				if($redirect){
+					header ('Location: logout.php');
+					}else{
+						return false;
+					}
+			}
+			
+
+		}else{
+				if($redirect){
+					header ('Location: logout.php');
+				}else{
+					return false;
+				}
+		}
 	}
 
 }
