@@ -1,35 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="shortcut icon" href="assets/ico/favicon.png">
+<?php
+include 'header.php';
 
-    <title>Featcher</title>
+$user_id = 3;
+?>
 
-    <!-- Bootstrap core CSS -->
-    <link href="assets/css/bootstrap.css" rel="stylesheet">
+<?php
 
-    <!-- Custom styles for this template -->
-    <link href="assets/css/main.css" rel="stylesheet">
-	<link rel="stylesheet" href="assets/css/font-awesome.min.css">
+if(isset($_POST['addfeature'])){
+	$feature->add($_POST['userid'], $_POST['text']);
+}
 
-    <script src="assets/js/jquery.min.js"></script>
-	<script src="assets/js/modernizr.custom.js"></script>
-	
-	<link rel="shortcut icon" href="assets/img/fav.ico" type="image/x-icon" />
-	
-    <link href='http://fonts.googleapis.com/css?family=Oswald:400,300,700' rel='stylesheet' type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=EB+Garamond' rel='stylesheet' type='text/css'>
+if(isset($_GET['remove'])){
+	$feature->remove($_GET['id'], $_GET['userid']);
+}
 
-    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="assets/js/html5shiv.js"></script>
-      <script src="assets/js/respond.min.js"></script>
-    <![endif]-->
-  </head>
+if(isset($_GET['vote'])){
+	if($_GET['vote'] == "no"){
+		$feature->vote('down', $_GET['fid'], $user_id); // testing
+	}
+
+	if($_GET['vote'] == "yes"){
+		echo 'jaa..';
+		$feature->vote('up', $_GET['fid'], $user_id); // testing
+	}
+}
+
+?>
+
+
 
   <body data-spy="scroll" data-offset="0" data-target="#theMenu">
 		
@@ -39,6 +37,7 @@
 			<h1 class="logo"><a href="index.php">FEATCHER</a></h1>
 			<i class="icon-remove menu-close"></i>
 			<a href="index.php" class="smoothScroll">Home</a>
+			<a href="#feature" class="smoothScroll">Add feature</a>
 			<a href="#popular" class="smoothScroll">Popular</a>
 			<a href="#newest" class="smoothScroll">Newest</a>
 
@@ -80,6 +79,31 @@
 	</div><!-- /headerwrap -->
 	
 	
+		<!-- ========== ADD FEATURE SECTION ========== -->
+	<section id="feature" name="feature"></section>
+	<div id="f">
+		<div class="container">
+			<div class="row">
+				<h3>ADD FEATURE</h3>
+				<p class="centered"><i class="icon icon-circle"></i><i class="icon icon-circle"></i><i class="icon icon-circle"></i></p>
+				
+				<!-- INTRO INFORMATIO-->
+				<div class="col-lg-6 col-lg-offset-3">
+
+					<form method="post">
+						<textarea name="text" class="form-control"></textarea><br/>
+						<input type="text" name="userid" class="form-control"><br/>
+						<p><button type="submit" class="btn btn-warning" name="addfeature">Add</button></p>
+					</form>
+
+					
+				</div>								
+			</div>
+		</div><!-- /container -->
+	</div><!-- /f -->
+
+
+
 	
 	<!-- ========== MOST POPULAR SECTION ========== -->
 	<section id="popular" name="popular"></section>
@@ -89,9 +113,53 @@
 				<h3>MOST POPULAR FEATURES</h3>
 				<p class="centered"><i class="icon icon-circle"></i><i class="icon icon-circle"></i><i class="icon icon-circle"></i></p>
 				
-				<!-- INTRO INFORMATIO-->
-				<div class="col-lg-6 col-lg-offset-3">
-					<p>Hier komt de top 10 rated Features.</p>
+				
+			
+
+			<!-- BEGIN TOP 5 -->
+			<div class="head col-lg-12">
+			<table class="table">
+				<tr>
+					<td width="40%">Feature</td>
+					<td width="20%">User</td>
+					<td width="20%">Votes</td>
+					<td>#</td>
+				</tr>
+			</table>
+			</div>
+
+			<?php
+			$q = $db->conn->query('SELECT f.*, (SELECT COUNT(*) FROM feature_vote WHERE feature_id = f.feature_id AND state="1") AS voteUp,
+											   (SELECT COUNT(*) FROM feature_vote WHERE feature_id = f.feature_id AND state="0") AS voteDown,
+											   (
+											   		(SELECT COUNT(*) FROM feature_vote WHERE feature_id = f.feature_id AND state="1")
+											   		-
+											   		(SELECT COUNT(*) FROM feature_vote WHERE feature_id = f.feature_id AND state="0")
+											   	) as totalVote FROM feature as f LEFT JOIN feature_vote as fv ON (f.feature_id = fv.feature_id) GROUP BY feature_id ORDER BY totalVote DESC LIMIT 5');
+			
+			?>
+
+			<?php
+			while($f = $q->fetch_assoc()){
+			?>
+			<div class="head col-lg-12">
+			<table class="table">
+				<tr style="background-color: <?=($f['totalVote'] > 0) ? '#B3FFBF' : '#FFC5C5'; ?>;">
+					<td width="40%"><?=$f['text']?></td>
+					<td width="20%"><?=$f['user_id']?></td>
+					<td width="20%"><?=($f['totalVote'])?></td>
+					<td><a href="?vote=yes&userid=<?=$user_id?>&fid=<?=$f['feature_id']?>">Yes</a> / <a href="?vote=no&userid=<?=$user_id?>&fid=<?=$f['feature_id']?>">No</a></td>
+				</tr>
+			</table>
+			</div>
+			<?php
+			}
+			?>
+
+		</div>
+		<!-- EINDE TOP 5 -->
+
+					
 					
 					<a href="login.php"><p><button type="button" class="btn btn-warning">I WANT TO PROPOSE FEATURES TOO!</button></p></a>
 				</div>								
@@ -108,9 +176,49 @@
 				<h3>NEWEST PROPOSITIONS</h3>
 					<p class="centered"><i class="icon icon-circle"></i><i class="icon icon-circle"></i><i class="icon icon-circle"></i></p>
 				
-				<!-- INTRO INFORMATIO-->
-				<div class="col-lg-6 col-lg-offset-3">
-					<p>Hier komen de laatste Features.</p>
+			
+			<!-- BEGIN LAATSTE 10 -->
+			<div class="head col-lg-12">
+			<table class="table">
+				<tr>
+					<td width="40%">Feature</td>
+					<td width="20%">User</td>
+					<td width="20%">Votes</td>
+					<td>#</td>
+				</tr>
+			</table>
+			</div>
+
+			<?php
+			$q = $db->conn->query('SELECT f.*, (SELECT COUNT(*) FROM feature_vote WHERE feature_id = f.feature_id AND state="1") AS voteUp,
+											   (SELECT COUNT(*) FROM feature_vote WHERE feature_id = f.feature_id AND state="0") AS voteDown,
+											   (
+											   		(SELECT COUNT(*) FROM feature_vote WHERE feature_id = f.feature_id AND state="1")
+											   		-
+											   		(SELECT COUNT(*) FROM feature_vote WHERE feature_id = f.feature_id AND state="0")
+											   	) as totalVote FROM feature as f LEFT JOIN feature_vote as fv ON (f.feature_id = fv.feature_id) GROUP BY feature_id ORDER BY created_on DESC LIMIT 10');
+			
+			?>
+
+			<?php
+			while($f = $q->fetch_assoc()){
+			?>
+			<div class="head col-lg-12">
+			<table class="table">
+				<tr style="background-color: <?=($f['totalVote'] > 0) ? '#B3FFBF' : '#FFC5C5'; ?>;">
+					<td width="40%"><?=$f['text']?></td>
+					<td width="20%"><?=$f['user_id']?></td>
+					<td width="20%"><?=($f['totalVote'])?></td>
+					<td><a href="?vote=yes&userid=<?=$user_id?>&fid=<?=$f['feature_id']?>">Yes</a> / <a href="?vote=no&userid=<?=$user_id?>&fid=<?=$f['feature_id']?>">No</a></td>
+				</tr>
+			</table>
+			</div>
+			<?php
+			}
+			?>
+
+		</div>
+		<!-- EINDE LAATSTE 10 -->
 					
 					<a href="login.php"><p><button type="button" class="btn btn-warning">I WANT TO PROPOSE FEATURES TOO!</button></p></a>
 				</div>								
@@ -135,4 +243,3 @@
 
 
 
-<!-- select * from images where fbid IN (select fbid from ratings HAVING count(fbid) > 150 group by fbid)  -->
