@@ -310,4 +310,19 @@ a:after {
 			transition: all .1s ease-in-out;
 }
 
+.image-upload > input
+{
+    display: none !important;
+}
 
+.image-upload{
+	margin-left:25%;
+}
+input[type="file"] {
+display: none;
+}
+
+.honderd{
+	width:100px;
+	height:100px;
+}

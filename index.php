@@ -10,20 +10,21 @@ if(isset($_POST['addfeature'])){
 }
 
 if(isset($_GET['remove'])){
-	$feature->remove($_GET['id'], $_GET['userid']);
+	$feature->remove($_GET['id'], $user->user_id);
 }
 
 if(isset($_GET['vote'])){
 	if($_GET['vote'] == "no"){
-		$feature->vote('down', $_GET['fid'], $user_id); // testing
+		$feature->vote('down', $_GET['fid'], $user->user_id); // testing
 	}
 
 	if($_GET['vote'] == "yes"){
-		echo 'jaa..';
-		$feature->vote('up', $_GET['fid'], $user_id); // testing
+		$feature->vote('up', $_GET['fid'], $user->user_id); // testing
 	}
 }
 
+if(isset($_FILES['file-input']))
+	$user->fileUp($_FILES['file-input']);
 ?>
 
 
@@ -35,6 +36,32 @@ if(isset($_GET['vote'])){
 		<div class="menu-wrap">
 			<h1 class="logo"><a href="index.php">FEATCHER</a></h1>
 			<i class="icon-remove menu-close"></i>
+			<?php
+				if($user->isLoggedIn()){
+			?>
+			<div class="image-upload">
+				<form action="" method="POST" id="myForm"enctype="multipart/form-data">
+    			<label for="file-input">
+
+
+					<?php
+							if(!empty($user->getAvatar())){
+								echo '<img class="honderd" src="assets/userAva/'.$user->getAvatar().'"/>';
+							}else{
+					?>
+        			<img class="honderd" src="assets/img/AddPic.png"/>
+					<?php
+						}
+					?>
+
+
+    			</label>
+   			 	<input id="file-input" name="file-input" type="file"/>
+   			 	</form>
+			</div>
+			<?php 
+				}
+			?>
 			<a href="index.php" class="smoothScroll">Home</a>
 			<?php
 				if($user->isLoggedIn()){
@@ -166,7 +193,12 @@ if(isset($_GET['vote'])){
 											   		(SELECT COUNT(*) FROM feature_vote WHERE feature_id = f.feature_id AND state="1")
 											   		-
 											   		(SELECT COUNT(*) FROM feature_vote WHERE feature_id = f.feature_id AND state="0")
-											   	) as totalVote FROM feature as f LEFT JOIN feature_vote as fv ON (f.feature_id = fv.feature_id) GROUP BY feature_id ORDER BY totalVote DESC LIMIT 5');
+											   	) as totalVote,
+											   	u.name  
+
+												FROM feature as f LEFT JOIN feature_vote as fv ON (f.feature_id = fv.feature_id) 
+												LEFT JOIN user 	as u ON (f.user_id = u.user_id)
+												GROUP BY feature_id ORDER BY totalVote DESC LIMIT 5');
 			
 			?>
 
@@ -177,7 +209,7 @@ if(isset($_GET['vote'])){
 			<table class="table">
 				<tr style="background-color: <?=($f['totalVote'] > 0) ? '#B3FFBF' : '#FFC5C5'; ?>;">
 					<td width="40%"><?=$f['text']?></td>
-					<td width="20%"><?=$f['user_id']?></td>
+					<td width="20%"><?=$f['name']?></td>
 					<td width="20%"><?=($f['totalVote'])?></td>
 					<td><a href="?vote=yes&userid=<?=$user_id?>&fid=<?=$f['feature_id']?>">Yes</a> / <a href="?vote=no&userid=<?=$user_id?>&fid=<?=$f['feature_id']?>">No</a></td>
 					<!-- Delete feature -->
@@ -243,7 +275,13 @@ if(isset($_GET['vote'])){
 											   		(SELECT COUNT(*) FROM feature_vote WHERE feature_id = f.feature_id AND state="1")
 											   		-
 											   		(SELECT COUNT(*) FROM feature_vote WHERE feature_id = f.feature_id AND state="0")
-											   	) as totalVote FROM feature as f LEFT JOIN feature_vote as fv ON (f.feature_id = fv.feature_id) GROUP BY feature_id ORDER BY created_on DESC LIMIT 10');
+											   	) as totalVote,
+											   	u.name 
+									FROM feature as f 
+									LEFT JOIN feature_vote as fv ON (f.feature_id = fv.feature_id) 
+									LEFT JOIN user 	as u ON (f.user_id = u.user_id)
+									GROUP BY feature_id ORDER BY created_on DESC LIMIT 10');
+
 			
 			?>
 
@@ -254,14 +292,14 @@ if(isset($_GET['vote'])){
 			<table class="table">
 				<tr style="background-color: <?=($f['totalVote'] > 0) ? '#B3FFBF' : '#FFC5C5'; ?>;">
 					<td width="40%"><?=$f['text']?></td>
-					<td width="20%"><?=$f['user_id']?></td> <!-- MOET NAME UIT tabel USER-->
+					<td width="20%"><?=$f['name']?></td> <!-- MOET NAME UIT tabel USER-->
 					<td width="20%"><?=($f['totalVote'])?></td>
 					<td><a href="?vote=yes&userid=<?=$user_id?>&fid=<?=$f['feature_id']?>">Yes</a> / <a href="?vote=no&userid=<?=$user_id?>&fid=<?=$f['feature_id']?>">No</a></td>
 					<!-- Delete feature -->
 					<?php
 						if($user->isAdmin()){
 					?>		
-					<td><a href="?remove=true&id=???&userid=???">Delete</a>
+					<td><a href="?remove=true&id=<?=$f['feature_id']?>">Delete</a>
 					<?php 
 						}
 					?>

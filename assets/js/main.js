@@ -8,4 +8,12 @@
 			});
 
 
+			//upload without entering
+			
+    		$("#file-input").on("change",function() {
+     			$("#myForm").submit();
+    		});
+		
+
+
 })(jQuery)

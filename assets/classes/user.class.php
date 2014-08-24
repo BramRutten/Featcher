@@ -201,6 +201,62 @@ class user{
 
 	}
 
+	function fileUp($file){
+
+		if(isset($file)){
+
+		    $errors= array();
+		    $file_name = $file['name'];
+		    $file_size =$file['size'];
+		    $file_tmp =$file['tmp_name'];
+		    $file_type=$file['type'];   
+		    $file_ext=strtolower(end(explode('.',$file['name'])));
+		    $extensions = array("jpeg","jpg","png"); 
+
+		    if(in_array($file_ext,$extensions )=== false){
+		     	$errors[]="extension not allowed, please choose a JPEG or PNG file.";
+		    }
+
+		    if($file_size > 2097152){
+		    	$errors[]='File size must be excately 2 MB';
+		    }				
+
+		    if(empty($errors)==true){
+
+		        move_uploaded_file($file_tmp,"assets/userAva/".$file_name);
+		        $this->addAvatar($file_name);
+
+		    }else{
+		        print_r($errors);
+		    }
+	    }
+	}
+
+
+	function addAvatar($file_name){
+
+		$db = new Db();
+		
+		$sql = 'UPDATE user SET image ="'. $db->conn->real_escape_string($file_name) .'" WHERE user_id = "'. $db->conn->real_escape_string($this->user_id) .'";';
+
+		$db->conn->query($sql);
+		return true;
+	}
+
+	function getAvatar(){
+
+		$db = new Db();
+		
+		$sql = 'SELECT image FROM `user` WHERE user_id = "'. $db->conn->real_escape_string($this->user_id) .'";';
+
+		$img = $db->conn->query($sql);
+		$row = $img->fetch_assoc();
+
+
+
+		return $row['image'];
+	}
+
 }
 ?>
 

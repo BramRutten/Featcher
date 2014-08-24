@@ -12,7 +12,7 @@ class Feature {
 	public function remove($feature_id, $user_id){
 		global $user, $db;
 
-		if($user->is_admin($user_id)){
+		if($user->isAdmin()){
 			
 			$db->conn->query('DELETE FROM feature WHERE feature_id="'.$feature_id.'"');
 
