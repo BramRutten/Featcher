@@ -1,7 +1,5 @@
 <?php
 
-include_once("db.class.php");
-
 class user{
 
 	//Privates
@@ -95,11 +93,13 @@ class user{
 	}
 
 
-		function login($email,$password){
+	function login($email,$password){
+
+		global $user, $db;
 
 		$db = new Db();
 		$salt = "(TH!5-8e-Th3-54lT)";
-		$sql = 'SELECT * from tbl_user WHERE email = "'.$db->conn->real_escape_string($email).'" AND password = "'.$db->conn->real_escape_string(sha1($password.$salt)).'";';
+		$sql = 'SELECT * from user WHERE email = "'.$db->conn->real_escape_string($email).'" AND password = "'.$db->conn->real_escape_string(sha1($password.$salt)).'";';
 
 		
 
@@ -110,7 +110,7 @@ class user{
 
 			$hash = sha1($row['user_id'].$salt);
 
-			$sql='UPDATE tbl_user SET hash="'.$hash.'" WHERE email ="'.$db->conn->real_escape_string($email).'";';
+			$sql='UPDATE user SET hash="'.$hash.'" WHERE email ="'.$db->conn->real_escape_string($email).'";';
 
 			$db->conn->query($sql);
 
@@ -119,13 +119,48 @@ class user{
 			$this->fillUser($row['user_id']);
 
 			header('Location: index.php');
-
-		}else{
-			throw new Exception("Email and/or password incorrect.");	
+			
+		
 		}
 	}
 
+	function signup($name, $email, $password, $isadmin){
 
+		global $user, $db;
+
+		$db = new Db();
+		$salt = "(TH!5-8e-Th3-54lT)";
+		$sql = "INSERT INTO user (name, email, password, is_admin) 
+			VALUES ('".$db->conn->real_escape_string($name)."',
+					'".$db->conn->real_escape_string($email)."',
+					'".$db->conn->real_escape_string(sha1($password.$salt))."',
+					'".$db->conn->real_escape_string($isadmin)."');";
+
+		echo($sql);
+
+		$db->conn->query($sql);
+		header ('Location: index.php');
+	}
+
+	function fillUser($id){
+
+		global $user, $db;
+
+		$db = new Db();
+		
+		$salt = "(TH!5-8e-Th3-54lT)";
+		$sql = 'SELECT * from user WHERE user_id = "'.$db->conn->real_escape_string($id).'";';
+
+		$result = $db->conn->query($sql);
+		$row = $result->fetch_assoc();
+
+		$this->user_id = $row['user_id'];
+		$this->name = $row['name'];
+		$this->email = $row['email'];
+		$this->image = $row['image'];
+		$this->image = $row['is_admin'];
+		$this->hash = $row['hash'];
+	}
 
 }
 ?>
