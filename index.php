@@ -3,7 +3,10 @@ include 'header.php';
 
 ?>
 
+
+
 <?php
+
 
 if(isset($_POST['addfeature'])){
 	$feature->add($user->user_id, $_POST['text']);
@@ -45,8 +48,9 @@ if(isset($_FILES['file-input']))
 
 
 					<?php
-							if(!empty($user->getAvatar())){
-								echo '<img class="honderd" src="assets/userAva/'.$user->getAvatar().'"/>';
+							$avatar = $user->getAvatar(); //Waarom?s
+							if(isset($avatar)){
+								echo '<img class="honderd" src="assets/userAva/'.$avatar.'"/>';
 							}else{
 					?>
         			<img class="honderd" src="assets/img/AddPic.png"/>
@@ -106,7 +110,23 @@ if(isset($_FILES['file-input']))
 		<div id="menuToggle"><i class="icon-reorder"></i></div>
 	</nav>
 
+	<?php
+		if(isset($_SESSION['success']) && !empty($_SESSION['success'])){
+	?>
+		<div class="alert alert-success"><?=$_SESSION['success']?></div>
+	<?php
+		$_SESSION['success'] = '';
+		}
+	?>
 
+	<?php
+		if(isset($_SESSION['error']) && !empty($_SESSION['error'])){
+	?>
+		<div class="alert alert-danger"><?=$_SESSION['error']?></div>
+	<?php
+		$_SESSION['error'] = '';
+		}
+	?>
 	
 	<!-- ========== HEADER SECTION ========== -->
 	<section id="home" name="home"></section>
@@ -142,13 +162,13 @@ if(isset($_FILES['file-input']))
 				<h3>ADD FEATURE</h3>
 				<p class="centered"><i class="icon icon-circle"></i><i class="icon icon-circle"></i><i class="icon icon-circle"></i></p>
 				
-				<!-- INTRO INFORMATIO-->
 				<div class="col-lg-6 col-lg-offset-3">
 
-					<form method="post">
-						<textarea name="text" class="form-control"></textarea><br/>
-						
-						<p><button type="submit" class="btn btn-warning" name="addfeature">Add</button></p>
+					<form method="post" id="addfeature">
+						<textarea name="text" id="text" class="form-control"></textarea><br/>
+						<input type="hidden" name="userid" id="userid" value="<?=$user->user_id?>">
+						<input type="hidden" name="name" id="name" value="<?=$user->name?>">
+						<p><button type="submit" class="btn btn-warning" id="addfeaturebutton" name="addfeature">Add</button></p>
 					</form>
 
 					
@@ -211,12 +231,12 @@ if(isset($_FILES['file-input']))
 					<td width="40%"><?=$f['text']?></td>
 					<td width="20%"><?=$f['name']?></td>
 					<td width="20%"><?=($f['totalVote'])?></td>
-					<td><a href="?vote=yes&userid=<?=$user_id?>&fid=<?=$f['feature_id']?>">Yes</a> / <a href="?vote=no&userid=<?=$user_id?>&fid=<?=$f['feature_id']?>">No</a></td>
+					<td><a href="?vote=yes&userid=<?=$user->user_id?>&fid=<?=$f['feature_id']?>">Yes</a> / <a href="?vote=no&userid=<?=$user->user_id?>&fid=<?=$f['feature_id']?>">No</a></td>
 					<!-- Delete feature -->
 					<?php
 						if($user->isAdmin()){
 					?>		
-					<td><a href="?remove=true&id=???&userid=???">Delete</a>
+					<td><a href="?remove=true&id=<?=$f['feature_id']?>&userid=<?=$user->user_id?>">Delete</a>
 					<?php 
 						}
 					?>
@@ -269,7 +289,7 @@ if(isset($_FILES['file-input']))
 			</div>
 
 			<?php
-			$q = $db->conn->query('SELECT f.*, (SELECT COUNT(*) FROM feature_vote WHERE feature_id = f.feature_id AND state="1") AS voteUp,
+			/*$q = $db->conn->query('SELECT f.*, (SELECT COUNT(*) FROM feature_vote WHERE feature_id = f.feature_id AND state="1") AS voteUp,
 											   (SELECT COUNT(*) FROM feature_vote WHERE feature_id = f.feature_id AND state="0") AS voteDown,
 											   (
 											   		(SELECT COUNT(*) FROM feature_vote WHERE feature_id = f.feature_id AND state="1")
@@ -280,13 +300,14 @@ if(isset($_FILES['file-input']))
 									FROM feature as f 
 									LEFT JOIN feature_vote as fv ON (f.feature_id = fv.feature_id) 
 									LEFT JOIN user 	as u ON (f.user_id = u.user_id)
-									GROUP BY feature_id ORDER BY created_on DESC LIMIT 10');
+									GROUP BY feature_id ORDER BY created_on DESC LIMIT 10');*/
 
 			
 			?>
 
+			<div id="newestFeatures">
 			<?php
-			while($f = $q->fetch_assoc()){
+			/*while($f = $q->fetch_assoc()){
 			?>
 			<div class="head col-lg-12">
 			<table class="table">
@@ -307,8 +328,12 @@ if(isset($_FILES['file-input']))
 			</table>
 			</div>
 			<?php
-			}
+			}*/
 			?>
+			<?php
+			include 'loadNewFeatures.php';
+			?>
+			</div>
 
 		</div>
 		<!-- EINDE LAATSTE 10 -->

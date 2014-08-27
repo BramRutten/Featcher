@@ -235,11 +235,16 @@ class user{
 
 	function addAvatar($file_name){
 
+		global $message;
+
 		$db = new Db();
 		
 		$sql = 'UPDATE user SET image ="'. $db->conn->real_escape_string($file_name) .'" WHERE user_id = "'. $db->conn->real_escape_string($this->user_id) .'";';
 
 		$db->conn->query($sql);
+
+		$message->success('Your avatar has been added succesfully.');
+
 		return true;
 	}
 
@@ -251,7 +256,6 @@ class user{
 
 		$img = $db->conn->query($sql);
 		$row = $img->fetch_assoc();
-
 
 
 		return $row['image'];

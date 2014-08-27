@@ -4,17 +4,23 @@
 class Feature {
 
 	public function add($user_id, $text){
-		global $db;
+		global $db, $message;
 		
-		$db->conn->query('INSERT INTO feature (created_on, user_id, text) VALUES (NOW(), "'.$user_id.'", "'.$text.'")');
+		$addFeature = $db->conn->query('INSERT INTO feature (created_on, user_id, text) VALUES (NOW(), "'.$user_id.'", "'.$text.'")');
+
+		$message->success('Je feature is toegevoegd.');
+
+		return $db->conn->insert_id;
 	}
 
 	public function remove($feature_id, $user_id){
-		global $user, $db;
+		global $user, $db, $message;
 
 		if($user->isAdmin()){
 			
 			$db->conn->query('DELETE FROM feature WHERE feature_id="'.$feature_id.'"');
+
+			$message->success('Feature is verwijderd.');
 
 			return true;
 		}

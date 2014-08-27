@@ -28,6 +28,7 @@ include 'init.php';
 
     <script src="assets/js/jquery.min.js"></script>
 	<script src="assets/js/modernizr.custom.js"></script>
+    <script src="assets/js/jsvoorajax.js"></script>
 	
 	<link rel="shortcut icon" href="assets/img/fav.ico" type="image/x-icon" />
 	
