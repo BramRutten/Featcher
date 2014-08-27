@@ -119,7 +119,7 @@ class user{
 
 	function signup($name, $email, $password, $isadmin){
 
-		global $user, $db;
+		global $user, $db, $message;
 
 		$db = new Db();
 		$salt = "(TH!5-8e-Th3-54lT)";
@@ -133,6 +133,8 @@ class user{
 
 		$db->conn->query($sql);
 		header ('Location: index.php');
+
+		$message->success('Account added.');
 	}
 
 	function fillUser($id){
@@ -162,7 +164,7 @@ class user{
 
 			$db = new Db();
 		
-			$sql = 'SELECT * from user WHERE hash = "'.$_SESSION['hash'].'";';
+			$sql = 'SELECT * from user WHERE hash = "'.$db->conn->real_escape_string($_SESSION['hash']).'";';
 
 			$result = $db->conn->query($sql);
 			$row = $result->fetch_assoc();

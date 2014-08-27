@@ -9,7 +9,13 @@ header('Location: index.php');
 <?php
 
 if(isset($_POST['login'])){
-	$user->login($_POST['email'], $_POST['password']);
+	if(!empty($_POST['email']) | !empty($_POST['password'])){
+
+		$user->login($_POST['email'], $_POST['password']);
+	}else{
+		$error = "notempty";
+	}
+	
 }
 
 
@@ -83,7 +89,14 @@ if(isset($_POST['login'])){
                             <div style="margin-bottom: 25px" class="input-group">
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
                                         <input id="login-password" type="password" class="form-control" name="password" placeholder="password">
-                                    </div>
+                            </div>
+							
+							<?php
+							if(isset($error)){
+								echo '<div class="alert alert-danger" role="alert">Please fill all fields!</div>';
+							}
+							?>
+
 							<p><button type="submit" value="login" name="login" class="btn btn-warning">Login</button></p>
 						</form>
 						<!-- Einde login form -->

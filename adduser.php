@@ -1,14 +1,18 @@
 <?php
 include 'header.php';
 
-$user_id = 3;
 ?>
 
 <?php
 
 if(isset($_POST['adduser'])){
-	$user->signup($_POST['name'], $_POST['email'], $_POST['password'], $_POST['isadmin']);
-	echo 'jaa..';
+
+	if(!empty($_POST['name']) | !empty($_POST['email']) | !empty($_POST['password'])){
+		$user->signup($_POST['name'], $_POST['email'], $_POST['password'], $_POST['isadmin']);
+	}else{
+		$error = "notempty";
+	}
+	
 }
 
 
@@ -90,6 +94,12 @@ if(isset($_POST['adduser'])){
                      		<div style="margin-bottom: 25px" class="input-group">
                                       <input type="checkbox" name="isadmin" value="1"> Admin<br>  
                             </div>
+
+							<?php
+							if(isset($error)){
+								echo '<div class="alert alert-danger" role="alert">Please fill all fields! (except the radio button obviously)</div>';
+							}
+							?>
 
 							<p><button type="submit" value="adduser" name="adduser" class="btn btn-warning">Add</button></p>
 						</form>

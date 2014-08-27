@@ -3,7 +3,7 @@
 	{
 		private $m_sHost = "localhost";
 		private $m_sUser = "root";
-		private $m_sPassword = "Brambo92";
+		private $m_sPassword = "";
 		private $m_sDatabase = "featcher";
 		public $conn;
 
